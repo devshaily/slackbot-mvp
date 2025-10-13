@@ -4,6 +4,8 @@ from dotenv import load_dotenv
 from flask import Flask, request, send_file, abort, jsonify
 from slack_bolt import App
 from slack_bolt.adapter.flask import SlackRequestHandler
+from slack_sdk.errors import SlackApiError
+
 
 import pipeline
 from report import build_pdf
@@ -81,7 +83,7 @@ def handle_keywords(ack, body, respond):
             "type": "section",
             "text": {
                 "type": "mrkdwn",
-                "text": f"*{g['label']}* – {len(g['items'])} items\\n`" + ", ".join(g['items'][:10]) + (" …" if len(g['items']) > 10 else "") + "`"
+                "text": f"*{g['label']}* – {len(g['items'])} items\n`" + ", ".join(g['items'][:10]) + (" …" if len(g['items']) > 10 else "") + "`"
             }
         })
 
@@ -90,11 +92,27 @@ def handle_keywords(ack, body, respond):
         {"type": "section", "text": {"type": "mrkdwn", "text": f"📄 *Report:* <{download_url}|Download PDF>"}}
     ])
 
-    slack_app.client.chat_postMessage(
-        channel=channel_id,
-        text="Keyword batch processed",
-        blocks=block_lines
-    )
+    try:
+        slack_app.client.chat_postMessage(
+            channel=channel_id,
+            text="Keyword batch processed",
+            blocks=block_lines
+        )
+    except SlackApiError as e:
+        # Handle case where bot isn't yet in the channel
+        if e.response["error"] == "not_in_channel":
+            try:
+                slack_app.client.conversations_join(channel=channel_id)
+                slack_app.client.chat_postMessage(
+                    channel=channel_id,
+                    text="Keyword batch processed",
+                    blocks=block_lines
+                )
+            except Exception as join_err:
+                print("Failed to auto-join or post:", join_err)
+        else:
+            print("Slack API Error:", e.response)
+
 
 
 # -----------------

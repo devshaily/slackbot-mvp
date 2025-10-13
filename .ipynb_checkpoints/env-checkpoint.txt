@@ -1,0 +1,8 @@
+echo "# Slack
+SLACK_BOT_TOKEN=
+SLACK_SIGNING_SECRET=
+
+# Server
+BASE_URL=https://your-ngrok-or-render-url
+DOWNLOAD_TOKEN=change-me-to-random-string
+" > .env.example

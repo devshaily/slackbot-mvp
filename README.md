@@ -23,3 +23,8 @@ cp .env.example .env
 
 # Run server locally
 python app.py
+
+## Deployment
+
+The app is containerized with Docker and deployed on Render.  
+Live URL: https://slackbot-mvp.onrender.com

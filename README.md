@@ -1,7 +1,7 @@
-# Slackbot MVP – Content Pipeline (Partial Working)
+# Slackbot MVP – Content Pipeline
 
 
-This MVP demonstrates a minimal end-to-end pipeline for the assignment:
+This MVP demonstrates a minimal end-to-end pipeline:
 
 
 - `/keywords` Slack command accepts a pasted list of keywords.

@@ -9,7 +9,7 @@ This MVP demonstrates a minimal end-to-end Slack automation pipeline for marketi
 - Generates a downloadable PDF report.
 - Fully deployed on Render (Docker-based).
 
-## 1) Local Setup
+## Setup
 
 ```bash
 python -m venv .venv && source .venv/bin/activate

@@ -20,9 +20,8 @@ BASE_URL = os.getenv("BASE_URL", "http://localhost:8000")
 DOWNLOAD_TOKEN = os.getenv("DOWNLOAD_TOKEN", "change-me")
 
 # Flask + Slack Bolt
-# Flask + Slack Bolt
 flask_app = Flask(__name__)
-slack_app = App(token=SLACK_BOT_TOKEN, signing_secret=SLACK_SIGNING_SECRET)
+slack_app = App(token=os.getenv("SLACK_BOT_TOKEN"), signing_secret=os.getenv("SLACK_SIGNING_SECRET"))
 handler = SlackRequestHandler(slack_app)
 
 
@@ -132,8 +131,14 @@ def download(slug):
 # -----------------
 # Slack Events Endpoint
 # -----------------
-@flask_app.post("/slack/events")
+@flask_app.route("/slack/events", methods=["POST"])
 def slack_events():
+    # Step 1: Handle Slack URL verification challenge
+    data = request.get_json()
+    if data and "challenge" in data:
+        return jsonify({"challenge": data["challenge"]})
+
+    # Step 2: Pass normal events to Slack Bolt handler
     return handler.handle(request)
 
 

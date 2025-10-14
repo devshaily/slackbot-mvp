@@ -22,7 +22,7 @@ cp .env.example .env
 # DOWNLOAD_TOKEN=....
 
 # Run server locally
-python app.py
+-python app.py
 
 ## Deployment
 The app is containerized with Docker and deployed on Render.  

@@ -88,7 +88,7 @@ def handle_keywords(ack, body, respond):
 
     block_lines.extend([
         {"type": "divider"},
-        {"type": "section", "text": {"type": "mrkdwn", "text": f"📄 *Report:* <{download_url}|Download PDF>"}}
+        {"type": "section", "text": {"type": "mrkdwn", "text": f":page_facing_up: *Report:* <{download_url}|Download PDF>"}}
     ])
 
     try:

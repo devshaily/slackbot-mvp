@@ -17,5 +17,4 @@ COPY . .
 EXPOSE 8000
 
 
-# Gunicorn + Uvicorn worker serving Flask app
 CMD ["gunicorn", "-w", "2", "-b", "0.0.0.0:8000", "app:flask_app"]

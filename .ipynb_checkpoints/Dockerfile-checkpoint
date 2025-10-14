@@ -18,4 +18,4 @@ EXPOSE 8000
 
 
 # Gunicorn + Uvicorn worker serving Flask app
-CMD ["gunicorn", "app:flask_app", "-w", "2", "-k", "uvicorn.workers.UvicornWorker", "-b", "0.0.0.0:8000", "--timeout", "90"]
+CMD ["gunicorn", "-w", "2", "-b", "0.0.0.0:8000", "app:flask_app"]

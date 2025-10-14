@@ -1,8 +1,6 @@
 # Slackbot MVP – Content Pipeline
 
-
 This MVP demonstrates a minimal end-to-end pipeline:
-
 
 - `/keywords` Slack command accepts a pasted list of keywords.
 - Cleans & deduplicates the list.
@@ -10,17 +8,13 @@ This MVP demonstrates a minimal end-to-end pipeline:
 - Generates a template-based (fake) outline per group.
 - Produces a downloadable PDF report.
 
-
-
 ## 1) Local Setup
-
 
 ```bash
 python -m venv .venv && source .venv/bin/activate
 pip install -r requirements.txt
 cp .env.example .env
 # fill in SLACK_BOT_TOKEN & SLACK_SIGNING_SECRET
-
 
 # run server
 gunicorn app:flask_app -w 1 -k uvicorn.workers.UvicornWorker -b 0.0.0.0:8000

@@ -1,12 +1,13 @@
 # Slackbot MVP – Content Pipeline
 
-This MVP demonstrates a minimal end-to-end pipeline:
+This MVP demonstrates a minimal end-to-end Slack automation pipeline for marketing content processing.
 
-- `/keywords` Slack command accepts a pasted list of keywords.
-- Cleans & deduplicates the list.
-- Groups keywords via simple, deterministic heuristics (no external APIs).
-- Generates a template-based (fake) outline per group.
-- Produces a downloadable PDF report.
+- `/keywords` Slack command accepts a list of keywords.
+- Cleans and deduplicates the input.
+- Groups keywords using simple heuristic rules (no external APIs).
+- Creates a basic outline for each group.
+- Generates a downloadable PDF report.
+- Fully deployed on Render (Docker-based).
 
 ## 1) Local Setup
 
@@ -14,7 +15,11 @@ This MVP demonstrates a minimal end-to-end pipeline:
 python -m venv .venv && source .venv/bin/activate
 pip install -r requirements.txt
 cp .env.example .env
-# fill in SLACK_BOT_TOKEN & SLACK_SIGNING_SECRET
+# Fill in your Slack credentials:
+# SLACK_BOT_TOKEN=...
+# SLACK_SIGNING_SECRET=...
+# BASE_URL=http://localhost:8000
+# DOWNLOAD_TOKEN=shaily
 
-# run server
-gunicorn app:flask_app -w 1 -k uvicorn.workers.UvicornWorker -b 0.0.0.0:8000
+# Run server locally
+python app.py

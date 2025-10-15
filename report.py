@@ -8,7 +8,7 @@ OUTPUT_DIR = os.getenv("OUTPUT_DIR", "/tmp/reports")
 os.makedirs(OUTPUT_DIR, exist_ok=True)
 
 
-def build_pdf(batch_id: str, cleaned: list[str], groups: list[dict], outlines: dict) -> str:
+def build_pdf(batch_id: str, cleaned: list[str], groups: list[dict], outlines: dict, post_ideas: dict) -> str:
     # batch_id doubles as slug for MVP
     slug = batch_id
     pdf_path = os.path.join(OUTPUT_DIR, f"report_{slug}.pdf")
@@ -63,6 +63,40 @@ def build_pdf(batch_id: str, cleaned: list[str], groups: list[dict], outlines: d
                     c.showPage()
                     y = height - margin
                 y = line(f"     • {sec['heading']}", y)
+
+    # -------------------------------
+    # Suggested Post Ideas Section
+    # -------------------------------
+    y -= 10
+    if y < 2 * cm:
+        c.showPage()
+        y = height - margin
+    
+    c.setFont("Helvetica-Bold", 12)
+    c.drawString(margin, y, "Suggested Post Ideas")
+    y -= 15
+    c.setFont("Helvetica", 10)
+    
+    for g in groups:
+        ideas = post_ideas.get(g['label'], [])
+        if not ideas:
+            continue
+    
+        if y < 2 * cm:
+            c.showPage()
+            y = height - margin
+    
+        c.setFont("Helvetica-Bold", 10)
+        c.drawString(margin, y, f"{g['label']}:")
+        y -= 12
+        c.setFont("Helvetica", 10)
+    
+        for idea in ideas:
+            if y < 2 * cm:
+                c.showPage()
+                y = height - margin
+            c.drawString(margin + 20, y, f"• {idea}")
+            y -= 12
 
     c.save()
     return pdf_path

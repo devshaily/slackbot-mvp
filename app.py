@@ -55,9 +55,14 @@ def handle_keywords(ack, body, respond):
     groups = pipeline.simple_group(cleaned)
     outlines = {g['label']: pipeline.fake_outline(g['label'], g['items']) for g in groups}
 
+    # Generate post ideas for each group
+    post_ideas = {}
+    for g in groups:
+        post_ideas[g['label']] = pipeline.generate_post_ideas(g['label'], g['items'])
+
     # Step 5: PDF report
     slug = uuid.uuid4().hex
-    pdf_path = build_pdf(slug, cleaned, groups, outlines)
+    pdf_path = build_pdf(slug, cleaned, groups, outlines, post_ideas)
 
     STATE[slug] = {
         'pdf_path': pdf_path,
@@ -88,7 +93,7 @@ def handle_keywords(ack, body, respond):
 
     block_lines.extend([
         {"type": "divider"},
-        {"type": "section", "text": {"type": "mrkdwn", "text": f":page_facing_up: *Report:* <{download_url}|Download PDF>"}}
+        {"type": "section", "text": {"type": "mrkdwn", "text": f":: *Report:* <{download_url}|Download PDF>"}}
     ])
 
     try:

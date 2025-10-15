@@ -117,3 +117,26 @@ def fake_outline(group_label: str, items: list[str]) -> dict:
             },
         ],
     }
+
+def generate_post_ideas(group_label: str, items: list[str]) -> list[str]:
+    """
+    Simple rule-based post idea generation.
+    """
+    main_keyword = items[0] if items else group_label
+
+    templates = [
+        f"The Complete Guide to {main_keyword}",
+        f"5 Ways to Improve Your {main_keyword} Strategy",
+        f"How to Master {main_keyword} in 2024",
+        f"{main_keyword} Best Practices: Do's and Don'ts",
+        f"Advanced {main_keyword} Techniques for Professionals"
+    ]
+
+    if len(items) >= 2:
+        templates.extend([
+            f"Connecting {items[0]} and {items[1]} for Better Results",
+            f"The Relationship Between {items[0]} and {items[1]}",
+            f"Using {items[0]} to Enhance Your {items[1]}"
+        ])
+
+    return templates[:3]

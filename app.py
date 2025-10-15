@@ -10,6 +10,7 @@ from slack_sdk.errors import SlackApiError
 import pipeline
 from report import build_pdf
 
+    
 # -----------------
 # Environment Setup
 # -----------------
@@ -24,6 +25,9 @@ flask_app = Flask(__name__)
 slack_app = App(token=os.getenv("SLACK_BOT_TOKEN"), signing_secret=os.getenv("SLACK_SIGNING_SECRET"))
 handler = SlackRequestHandler(slack_app)
 
+@flask_app.before_request
+def log_request():
+    print("🔹 Incoming request:", request.path, request.method)
 
 # In-memory storage (no DB for MVP)
 STATE = {}
@@ -158,9 +162,11 @@ def test_route():
     return "Hello from Flask!", 200
 
 
+
 # -----------------
 # Run app
 # -----------------
 if __name__ == "__main__":
     port = int(os.environ.get("PORT", 8000))
     flask_app.run(host="0.0.0.0", port=port)
+    

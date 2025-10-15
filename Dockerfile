@@ -17,4 +17,4 @@ COPY . .
 EXPOSE 8000
 
 
-CMD ["gunicorn", "-w", "2", "-b", "0.0.0.0:8000", "app:flask_app"]
+CMD ["gunicorn", "app:flask_app", "-w", "1", "-b", "0.0.0.0:8000"]

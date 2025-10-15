@@ -35,6 +35,10 @@ STATE = {}
 def health():
     return jsonify({"status": "ok"})
 
+@flask_app.get("/healthz")
+def render_health():
+    return jsonify({"status": "ok"})
+
 
 # -----------------
 # Slack command: /keywords
@@ -145,6 +149,13 @@ def slack_events():
 
     # Step 2: Pass normal events to Slack Bolt handler
     return handler.handle(request)
+
+# -----------------
+# Test route (for debugging)
+# -----------------
+@flask_app.route("/test", methods=["GET"])
+def test_route():
+    return "Hello from Flask!", 200
 
 
 # -----------------
